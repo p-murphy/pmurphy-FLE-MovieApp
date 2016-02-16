@@ -1,0 +1,109 @@
+{% extends "starter/base.html" %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="/static/starter/site.css" />
+
+<div class="row">
+	<div class="col-xs-offset-1 col-xs-17 col-md-offset-1 col-md-10">
+
+		<h2>Movie List</h2>
+		<br/>
+		<br/>
+
+		<table class="table" align="center">
+			<th>Scores</th>
+			<th></th>
+			<th>Title</th>
+			<th>Rating</th>
+			<th>Cast</th>
+
+			{% for movie in data.movies %}
+			<tr>
+				<!--Scores-->
+				<td class="col-xs-4 col-md-2">
+					<table>
+						<tr>
+							{% if movie.ratings.critics_score >= 75  %}
+							<td>
+								<img class="icon" 
+								src="{% static "starter/images/certifiedfresh.png" %}"
+								title="Certified Fresh"
+								alt="Certified Fresh">
+							</td>
+							<td class="score-text">{{ movie.ratings.critics_score }}%</td>
+							{% elif movie.ratings.critics_score == -1 %}
+							<td>
+							<img class="icon" 
+							src="{% static "starter/images/missing.png" %}"
+							title="Certified Fresh"
+							alt="Certified Fresh">
+						</td>
+							<td class="score-text">No critic rating</td>
+							{% elif movie.ratings.critics_score < 60  %}
+							<td>
+								<img class="icon" 
+								src="{% static "starter/images/splat.png" %}"
+								title="Rotten"
+								alt="Rotten">
+							</td>
+							<td class="score-text">{{ movie.ratings.critics_score }}%</td>
+							{% elif movie.ratings.critics_score >= 60 %}
+							<td>
+								<img class="icon" 
+								src="{% static "starter/images/tomato.png" %}"
+								title="Fresh"
+								alt="Fresh">
+							</td>
+							<td class="score-text">{{ movie.ratings.critics_score }}%</td>
+							{% endif %}
+						</tr>
+						<tr>
+							{% if movie.ratings.audience_score >= 70  %}
+							<td>
+								<img class="icon" 
+								src="{% static "starter/images/gooduserscore.png" %}"
+								title="Audience Liked"
+								alt="Audience Liked">
+							</td>
+							<td class="score-text">{{ movie.ratings.audience_score }}%</td>
+							{% elif movie.ratings.audience_score < 70 %}
+							<td>
+								<img class="icon" 
+								src="{% static "starter/images/baduserscore.png" %}"
+								title="Audience Disliked"
+								alt="Audience Disliked">
+							</td>
+							<td class="score-text">{{ movie.ratings.audience_score }}%</td>
+							{% endif %}
+						</tr>
+					</table>
+				</td>
+				<!--Poster Tumbnail-->
+				<td class="col-xs-2 col-md-1">
+					<a href="/details/{{ movie.id }}">
+						<img class="profile"
+						src="{{ movie.posters.profile }}"
+						title="{{ movie.title }}"
+						alt="{{ movie.title }}">
+					</a>
+				</td>
+				<!--Title-->
+				<td class="col-xs-4 col-md-2">
+					<a href="/details/{{ movie.id }}">{{ movie.title }}</a>
+				</td>
+				<!--Rating-->
+				<td class="col-xs-2 col-md-1">{{ movie.mpaa_rating }}</td>
+				<!--Cast-->
+				<td>
+					{% for actor in movie.abridged_cast %}
+					<p>{{ actor.name }}</p>
+					{% endfor %}
+				</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>
+
+{% endblock %}

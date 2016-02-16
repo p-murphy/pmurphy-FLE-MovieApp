@@ -1,0 +1,67 @@
+
+
+.row-title{
+    font-weight: bold;
+}
+
+.icon{
+    text-align: center;
+    height:80px;
+    horizontal-align: middle;
+}
+
+.thumbnail{
+    height:91px;
+    width:61px;
+    padding: 0px 0px 0px 0px;
+    box-shadow: 10px 10px 5px #888888;
+}
+
+.profile{
+    height:178px;
+    width:120px;
+    padding: 0px 0px 0px 0px;
+    box-shadow: 5px 5px 5px #888888;
+}
+
+.box-shadow{
+    box-shadow: 5px 5px 5px #888888;
+}
+
+.year{
+    color:black;
+    font-size: 50%;
+}
+
+.details{
+    border:1px solid gainsboro; 
+    padding:2em;
+    margin-left:1em; 
+    margin-right:1em;
+}
+
+.cast{
+    border:1px solid gainsboro;
+    padding:1em;
+    margin-bottom:2em;
+}
+
+.scores{
+    border:1px solid gainsboro;
+    padding:1em;
+}
+
+.score-text{
+    align:right;
+    padding:1em;
+}
+
+.brand{
+    position: relative;
+    top: -1em;
+    height:3em; 
+}
+
+span.ui-helper-hidden-accessible {
+ display:none; 
+}

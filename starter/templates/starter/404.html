@@ -1,0 +1,22 @@
+{% extends "starter/base.html" %}
+
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="/static/starter/site.css" />
+
+<div class="row">
+<div class="col-xs-offset-1 col-xs-16 col-md-offset-1 col-md-10">
+  <h1>Page not found...</h1>
+  <p>Please contact your local administrator</p>
+  <img src="{% static "starter/images/404.jpg" %}"
+  title="Page not found..."
+  alt="Image of blank screen in movie theater">
+</div>
+</div>
+
+<script>
+console.log({{movie_titles_list}})
+</script>
+
+{% endblock %}

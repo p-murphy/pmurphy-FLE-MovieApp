@@ -1,0 +1,144 @@
+{% extends "starter/base.html" %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static "starter/magnific-popup.css" %}">
+<link rel="stylesheet" href="{% static "starter/site.css" %}">
+
+<div class="row">
+	<div class="col-xs-offset-1 col-xs-17 col-md-offset-1 col-md-11">
+		<!--Movie Title and Year-->
+		<h2>{{ movie.title }}<span class="year"> ({{ movie.year }})</span></h2>
+		<br/>
+		<br/>
+		<!--Movie Poster-->
+		<div class="row">
+			<div class="col-xs-3 col-md-2">
+				<div align="center">
+					<a class="image-popup-vertical-fit" 
+					href={{ movie.posters.original }} 
+					title="{{ movie.title }}"
+					alt="{{ movie.title }}">
+					<img src={{ movie.posters.detailed }}>
+				</a>
+			</div>
+		</div>
+		<!--Movie Details-->
+		<div class="col-xs-6 col-md-4 details">
+			<div align="center">
+				<table>
+					<tr>
+						<td class="row-title">Rating:</td>
+						<td>{{ movie.mpaa_rating }}</td>
+					</tr>
+					<tr>
+						<td class="row-title">In Theaters:</td>
+						<td>{{ release_date|date }}</td>
+					</tr>
+					<tr>
+						<td class="row-title">Runtime:</td>
+						<td>{{ movie.runtime }} min</td>
+					</tr>
+					<tr>
+						<td colspan="2"><br/>{{ movie.synopsis }}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="col-xs-6 col-md-4">
+			<!--Cast-->
+			<div class="cast">
+				<div align="left">
+					<h4><em>Abridged Cast</em></h4>
+					<ul>
+						{% for actor in actors_list %}
+						<li>{{ actor }}</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+			<div class="scores">
+				<!--Scores-->
+				<h4><em>Scores</em></h4>
+				<table>
+					<tr>
+						{% if movie.ratings.critics_score >= 75  %}
+						<td>
+							<img class="icon" 
+							src="{% static "starter/images/certifiedfresh.png" %}"
+							title="Certified Fresh"
+							alt="Certified Fresh">
+						</td>
+						<td class="score-text"> Critics - {{ movie.ratings.critics_score }}%</td>
+						{% elif movie.ratings.critics_score == -1 %}
+						<td>
+							<img class="icon" 
+							src="{% static "starter/images/missing.png" %}"
+							title="Certified Fresh"
+							alt="Certified Fresh">
+						</td>
+						<td class="score-text"> Critics - No critic rating</td>
+						{% elif movie.ratings.critics_score < 60 %}
+						<td>
+							<img class="icon" 
+							src="{% static "starter/images/splat.png" %}"
+							title="Rotten"
+							alt="Rotten">
+						</td>
+						<td class="score-text"> Critics - {{ movie.ratings.critics_score }}%</td>
+						{% elif movie.ratings.critics_score >= 60 %}
+						<td>
+							<img class="icon" 
+							src="{% static "starter/images/tomato.png" %}"
+							title="Fresh"
+							alt="Fresh">
+						</td>
+						<td class="score-text"> Critics - {{ movie.ratings.critics_score }}%</td>
+						{% endif %}
+					</tr>
+					<tr>
+						{% if movie.ratings.audience_score >= 70  %}
+						<td>
+							<img class="icon" 
+							src="{% static "starter/images/gooduserscore.png" %}"
+							title="Audience Liked"
+							alt="Audience Liked">
+						</td>
+						<td class="score-text"> Audience - {{ movie.ratings.audience_score }}%</td>
+						{% elif movie.ratings.audience_score < 70 %}
+						<td>
+							<img class="icon" 
+							src="{% static "starter/images/baduserscore.png" %}"
+							title="Audience Disliked"
+							alt="Audience Disliked">
+						</td>
+						<td class="score-text"> Audience - {{ movie.ratings.audience_score }}%</td>
+						{% endif %}
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<script src="{% static "starter/jquery.magnific-popup.min.js" %}"></script>
+
+<script>
+	$(document).ready(function() {
+		$('.image-popup-vertical-fit').magnificPopup({
+			type: 'image',
+			closeOnContentClick: true,
+			mainClass: 'mfp-img-mobile',
+			image: {
+				verticalFit: true
+			}
+		});
+	});
+</script>
+
+<script>
+console.log({{movie_titles_list}})
+</script>
+
+{% endblock %}
