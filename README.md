@@ -11,11 +11,11 @@ That said, I do also recognize the benefit of anyone reviewing this to be assure
 
 ## Stack/Technologies
 
-Python
-Django
-SQLite
-HTML
-CSS
+Python -
+Django -
+SQLite -
+HTML -
+CSS -
 JavaScript
 
 ## 3rd-Party Packages
