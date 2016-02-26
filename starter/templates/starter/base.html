@@ -50,8 +50,9 @@
           action="{% url 'search' %}" method="post">
           {% csrf_token %}
           <div class="form-group">
-            <input id="autocomplete" type="text" name="userinput" class="form-control" 
+            <input id="autocomplete" type="text" name="titleinput" class="form-control" 
             placeholder="Search">
+            <input  type="hidden" id="movie-id" name="idinput" />
           </div>
           <button type="submit" class="btn btn-default">Find</button>
         </form>
@@ -71,10 +72,27 @@
       ul.outerWidth(this.element.outerWidth());
     }
 
-    var availableTags = {{ movie_titles_list|safe }};
+    // movie_titles_list is built in views.py. This populates the pop-up
+    var availableTags = {{ movie_titles_list|safe}};
 
     $( "#autocomplete" ).autocomplete({
-      source: availableTags
+      // Limit responses in pop-up to 10 entries
+      source: function(request, response) {
+        var results = $.ui.autocomplete.filter(availableTags, request.term);
+        response(results.slice(0, 10));
+      },
+      // The following 2 functions associate the movie title the user enters
+      // with the movie's id. Both are bundled as dict values in movie_titles_list
+      focus: function( event, ui ) {
+        $( "#autocomplete" ).val( ui.item.value);
+        return false;
+      },
+      select: function( event, ui ) {
+        $( "#autocomplete" ).val( ui.item.value);
+        $( "#movie-id" ).val( ui.item.key );
+        
+        return false;
+      } 
     });
 
     $( "#menu" ).menu();
@@ -89,6 +107,6 @@
       }
       );
   });
-  </script>
+</script>
 </body>
 </html>

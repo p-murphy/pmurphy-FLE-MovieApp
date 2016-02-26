@@ -13,13 +13,13 @@
 		<br/>
 		<!--Movie Poster-->
 		<div class="row">
-			<div class="col-xs-3 col-md-2">
-				<div align="center">
+			<div class="col-xs-3 col-md-2" align="right">
+				<div>
 					<a class="image-popup-vertical-fit" 
-					href={{ movie.posters.original }} 
+					href={{ movie.original }} 
 					title="{{ movie.title }}"
 					alt="{{ movie.title }}">
-					<img src={{ movie.posters.detailed }}>
+					<img class="poster" src={{ movie.original }}>
 				</a>
 			</div>
 		</div>
@@ -33,7 +33,7 @@
 					</tr>
 					<tr>
 						<td class="row-title">In Theaters:</td>
-						<td>{{ release_date|date }}</td>
+						<td>{{ release_theater|date }}</td>
 					</tr>
 					<tr>
 						<td class="row-title">Runtime:</td>
@@ -50,11 +50,20 @@
 			<div class="cast">
 				<div align="left">
 					<h4><em>Abridged Cast</em></h4>
-					<ul>
-						{% for actor in actors_list %}
-						<li>{{ actor }}</li>
+					<table>
+						{% for actor in movie.abridged_cast %}
+						<tr>
+							<td style="width:12em;">
+								<p><b>{{ actor.name }}</b></p>
+							</td>
+							{% for role in actor.characters %}
+							<td>
+								<p><em>{{ role }}</em></p>
+							</td>
+							{% endfor %}
+						</tr>
 						{% endfor %}
-					</ul>
+					</table>
 				</div>
 			</div>
 			<div class="scores">
@@ -62,15 +71,15 @@
 				<h4><em>Scores</em></h4>
 				<table>
 					<tr>
-						{% if movie.ratings.critics_score >= 75  %}
+						{% if movie.critics_score|add:"0" >= 75  %}
 						<td>
 							<img class="icon" 
 							src="{% static "starter/images/certifiedfresh.png" %}"
 							title="Certified Fresh"
 							alt="Certified Fresh">
 						</td>
-						<td class="score-text"> Critics - {{ movie.ratings.critics_score }}%</td>
-						{% elif movie.ratings.critics_score == -1 %}
+						<td class="score-text"> Critics - {{ movie.critics_score }}%</td>
+						{% elif movie.critics_score|add:"0" == -1 %}
 						<td>
 							<img class="icon" 
 							src="{% static "starter/images/missing.png" %}"
@@ -78,41 +87,41 @@
 							alt="Certified Fresh">
 						</td>
 						<td class="score-text"> Critics - No critic rating</td>
-						{% elif movie.ratings.critics_score < 60 %}
+						{% elif movie.critics_score|add:"0" < 60 %}
 						<td>
 							<img class="icon" 
 							src="{% static "starter/images/splat.png" %}"
 							title="Rotten"
 							alt="Rotten">
 						</td>
-						<td class="score-text"> Critics - {{ movie.ratings.critics_score }}%</td>
-						{% elif movie.ratings.critics_score >= 60 %}
+						<td class="score-text"> Critics - {{ movie.critics_score }}%</td>
+						{% elif movie.critics_score|add:"0" >= 60 %}
 						<td>
 							<img class="icon" 
 							src="{% static "starter/images/tomato.png" %}"
 							title="Fresh"
 							alt="Fresh">
 						</td>
-						<td class="score-text"> Critics - {{ movie.ratings.critics_score }}%</td>
+						<td class="score-text"> Critics - {{ movie.critics_score }}%</td>
 						{% endif %}
 					</tr>
 					<tr>
-						{% if movie.ratings.audience_score >= 70  %}
+						{% if movie.audience_score|add:"0" >= 70  %}
 						<td>
 							<img class="icon" 
 							src="{% static "starter/images/gooduserscore.png" %}"
 							title="Audience Liked"
 							alt="Audience Liked">
 						</td>
-						<td class="score-text"> Audience - {{ movie.ratings.audience_score }}%</td>
-						{% elif movie.ratings.audience_score < 70 %}
+						<td class="score-text"> Audience - {{ movie.audience_score }}%</td>
+						{% elif movie.audience_score|add:"0" < 70 %}
 						<td>
 							<img class="icon" 
 							src="{% static "starter/images/baduserscore.png" %}"
 							title="Audience Disliked"
 							alt="Audience Disliked">
 						</td>
-						<td class="score-text"> Audience - {{ movie.ratings.audience_score }}%</td>
+						<td class="score-text"> Audience - {{ movie.audience_score }}%</td>
 						{% endif %}
 					</tr>
 				</table>
@@ -125,6 +134,7 @@
 <script src="{% static "starter/jquery.magnific-popup.min.js" %}"></script>
 
 <script>
+  // Pops poster into lightbox view
 	$(document).ready(function() {
 		$('.image-popup-vertical-fit').magnificPopup({
 			type: 'image',
@@ -135,10 +145,6 @@
 			}
 		});
 	});
-</script>
-
-<script>
-console.log({{movie_titles_list}})
 </script>
 
 {% endblock %}
